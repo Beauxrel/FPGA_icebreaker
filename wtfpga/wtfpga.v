@@ -27,10 +27,16 @@ module top(
 
 //instantiate modules here
 	nibble_to_seven_seg nibble0(
-		.nibblein(),
-		.segout()
+		.nibblein(sw[3:0]),
+		.segout(disp0)
 	);	 
 	 
+        nibble_to_seven_seg nibble1(
+                .nibblein(sw[7:4]),
+                .segout(disp1)
+        );      
+
+
 	clkdiv displayClockGen(
 		.clk(CLK),
 		.clkout(displayClock)
