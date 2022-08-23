@@ -16,23 +16,28 @@ module top(
 //define wires and registers here
 	wire [7:0] disp0,disp1;
 	wire displayClock;
-	
+	reg [7:0] storedValue;
+	wire [7:0] dispValue;
 //parallel assignments can go here
 	assign led[4:0]=sw[4:0];
-
+	assign dispValue = BTN2?storedValue:sw; //if a then b else c
 //always @ blocks can go here
 //	always @(sensitivity list) begin
 //		commmands-to-run-when-triggered;
 //	end
 
+	always @(negedge BTN_N) begin
+		storedValue <=sw; 
+	end
+
 //instantiate modules here
 	nibble_to_seven_seg nibble0(
-		.nibblein(sw[3:0]),
+		.nibblein(dispValue[3:0]),
 		.segout(disp0)
 	);	 
 	 
         nibble_to_seven_seg nibble1(
-                .nibblein(sw[7:4]),
+                .nibblein(dispValue[7:4]),
                 .segout(disp1)
         );      
 
